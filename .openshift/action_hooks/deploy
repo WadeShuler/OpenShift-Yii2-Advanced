@@ -83,7 +83,7 @@ cd $OPENSHIFT_REPO_DIR
 
 # Run composer install now, because json does Yii init to dev mode by default
 echo "--> Run Composer install without dev"
-$MY_PHPCOMPOSER install --no-dev
+$MY_PHPCOMPOSER install --no-dev --no-scripts
 
 echo "--> START: Yii2 Custom Handling"
 # Time for Yii2 Fun
@@ -122,3 +122,5 @@ else
 fi
 
 echo "--> END: Yii2 Custom Handling"
+
+printBanner "End Action Hook: Deploy"
