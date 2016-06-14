@@ -78,11 +78,14 @@ getGitVersion
 
 $MY_PHPCOMPOSER global require "fxp/composer-asset-plugin:~1.1.1"
 
+echo "--> Going back to REPO_DIR"
 cd $OPENSHIFT_REPO_DIR
 
 # Run composer install now, because json does Yii init to dev mode by default
+echo "--> Run Composer install without dev"
 $MY_PHPCOMPOSER install --no-dev
 
+echo "--> START: Yii2 Custom Handling"
 # Time for Yii2 Fun
 if [ -d "$OPENSHIFT_REPO_DIR/frontend" ] && [ -d "$OPENSHIFT_REPO_DIR/backend" ]; then
 
@@ -97,7 +100,7 @@ if [ -d "$OPENSHIFT_REPO_DIR/frontend" ] && [ -d "$OPENSHIFT_REPO_DIR/backend" ]
 
     if [ $YII_MIGRATE == true ]; then
         echo "--> Running Yii Migrate"
-        #php yii migrate --interactive=0
+        php yii migrate --interactive=0
     fi
 
     echo "--> Creating Frontend Symlink"
@@ -113,7 +116,9 @@ else
 
     if [ $YII_MIGRATE == true ]; then
         echo "--> Running Yii Migrate"
-        #php yii migrate --interactive=0
+        php yii migrate --interactive=0
     fi
 
 fi
+
+echo "--> END: Yii2 Custom Handling"
