@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# This deploy hook gets executed after dependencies are resolved and the
+# build hook has been run but before the application has been started back
+# up again.  This script gets executed directly, so it could be python, php,
+# ruby, etc.
+
+# Don't forget to "chmod +x .openshift/action_hooks/build"
+
+# Use repository htaccess if exists
+#if [ -f ${OPENSHIFT_REPO_DIR}.openshift/config/.htaccess ]; then
+#  cp -f ${OPENSHIFT_REPO_DIR}.openshift/config/.htaccess ${OPENSHIFT_REPO_DIR}web/.htaccess
+#fi
+
+#init yii app
+#composer clear-cache
+#composer global require "fxp/composer-asset-plugin:~1.1.1"
+#cd ${OPENSHIFT_REPO_DIR}
+#php init --env=Production --overwrite=All
+#composer install
