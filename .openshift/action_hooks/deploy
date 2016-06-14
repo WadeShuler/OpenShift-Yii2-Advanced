@@ -84,7 +84,7 @@ cd $OPENSHIFT_REPO_DIR
 $MY_PHPCOMPOSER install --no-dev
 
 # Time for Yii2 Fun
-if [ -d "$OPENSHIFT_REPO_DIR/frontend" && -d "$OPENSHIFT_REPO_DIR/backend" ]; then
+if [ -d "$OPENSHIFT_REPO_DIR/frontend" ] && [ -d "$OPENSHIFT_REPO_DIR/backend" ]; then
 
     # Yii2 Advanced App
     echo "--> Yii Advanced App Detected"
