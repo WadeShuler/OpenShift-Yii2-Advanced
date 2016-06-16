@@ -1,54 +1,36 @@
-Yii 2 Advanced Project Template
-===============================
+OpenShift Yii2 Advanced
+=======================
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
+Do you use the Yii2 Advanced template? Do you use OpenShift? Next time you create a new app on OpenShift, use this repo's git URL to instantly have Yii2 Advanced installed and setup out of the box with your new OpenShift app.
 
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
+**Current Yii2 Version:** 2.0.8
 
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
+**Link:** [Yii2 Advanced Application](https://github.com/yiisoft/yii2-app-advanced)
 
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
+## Includes My OpenShift Yii2 Config
 
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-app-advanced/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://poser.pugx.org/yiisoft/yii2-app-advanced/downloads.png)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Build Status](https://travis-ci.org/yiisoft/yii2-app-advanced.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-app-advanced)
+This comes with my [OpenShift-Yii2-Config](https://github.com/WadeShuler/OpenShift-Yii2-Config) repo. It allows you to push your project to OpenShift easily. Before your app starts back up, it: runs composer, runs Yii init (optional but on by default), creates symlink named `web` in the root of your project pointing to `/frontend/web`, creates a symlink named `admin` inside `/frontend/web` pointing to `/backend/web`, and optionally runs yii migrate for you on push to ensure your database is synced.
 
-DIRECTORY STRUCTURE
--------------------
+Don't want to run `yii migrate` or `yii init`, but would rather do it differently? You can easily turn those off inside the `/.openshift/action_hooks/deploy` file. Migrate is off by default to prevent accidental migrations. Init is necessary for the Yii2 appp to run, but you can turn it off if you have something else in mind.
 
-```
-common
-    config/              contains shared configurations
-    mail/                contains view files for e-mails
-    models/              contains model classes used in both backend and frontend
-console
-    config/              contains console configurations
-    controllers/         contains console controllers (commands)
-    migrations/          contains database migrations
-    models/              contains console-specific model classes
-    runtime/             contains files generated during runtime
-backend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains backend configurations
-    controllers/         contains Web controller classes
-    models/              contains backend-specific model classes
-    runtime/             contains files generated during runtime
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-frontend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains frontend configurations
-    controllers/         contains Web controller classes
-    models/              contains frontend-specific model classes
-    runtime/             contains files generated during runtime
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-    widgets/             contains frontend widgets
-vendor/                  contains dependent 3rd-party packages
-environments/            contains environment-based overrides
-tests                    contains various tests for the advanced application
-    codeception/         contains tests developed with Codeception PHP Testing Framework
-```
+## Additionally
+
+On top of my OpenShift Yii2 action hooks, this comes with OpenShift's Environment Variables for the production database config. Inside the `/environments/prod/common/config/main-local.php`, you will find them. When yii init runs (automatically when pushed to your OpenShift app), it will already know how to connect to your OpenShift MySQL database.
+
+If you turn off `yii init` in the OpenShift deploy action hook, the default database Environment Variables will not be used. The init copies files from the `environments` directory and puts them appropriately in their place. So use environments properly (how Yii meant for them to be used), or copy/move the file yourself into the appropriate place.
+
+This of course comes with Yii2 Advanced. Please check the current Yii version in use (located at the top of this README)
+
+## What this does not do
+
+This does not create a default database for you. The development `main-local.php` file is stock, and the production `main-local.php` has the Environment Variables ready to go. There is no database and the `migrations` have been left alone from the stock Yii2 Advanced project. This is why migrate is off by default. You would need to create your own database for your development, and update the development `main-local.php` config file with your development database info (usually your localhost).
+
+## How to set up a database?
+
+### Option A:
+
+Those who use Yii migrations: All you really need to do is create your database. You can then use yii migrations to create tables and set everything else up. Thus, when migrate is ran on your OpenShift server, it will build it from the start. You of course have to create a MySQL database on your OpenShift app. When your ready, don't forget to set the boolean for `YII_MIGRATE` to true, in the OpenShift deploy action hook.
+
+### Option B:
+
+Create your database locally. Create your OpenShift database. Manually import your database (Navicat or setup phpMyAdmin). From a baseline, then you could then use migrations. Or just manually update the database and skip using migrations all together. It's up to you.
