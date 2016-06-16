@@ -3,10 +3,10 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=yii2advanced',
-            'username' => 'root',
-            'password' => '',
-            'charset' => 'utf8',
+            'dsn' => 'mysql:host=' . getenv('OPENSHIFT_MYSQL_DB_HOST') . ';dbname=' . getenv('OPENSHIFT_APP_NAME'),
+            'username' => getenv('OPENSHIFT_MYSQL_DB_USERNAME'),
+            'password' => getenv('OPENSHIFT_MYSQL_DB_PASSWORD'),
+            'charset' => 'utf8mb',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
